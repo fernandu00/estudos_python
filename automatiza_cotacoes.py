@@ -1,3 +1,8 @@
+#instale os módulos abaixo
+# As ações do Yahoo Finance possuem códigos nomeados da seguinte maneira: ações brasileiras precisam terminar com .SA EX: WEGE -> WEGE3.SA
+#Ações americanas não precisam de nenhum adicional
+#índices precisam estar nomeados como no site yahoo finance..Ex: BOVESPA -> ^BVSP
+
 import pandas as pd
 import pandas_datareader as pdr
 import yfinance
