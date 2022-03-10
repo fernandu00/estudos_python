@@ -16,6 +16,8 @@ inicio21 = '2021-01-01'
 
 final21 = '2021-12-31'
 
+inicio22 = '2022-01-01'
+
 acao = input('Digite uma ação: ')
 
 
@@ -122,6 +124,66 @@ maximo21 = str(round(ordem,2))
 # print(maximo21)
 
 
+
+# pega primeiro preço de 2022
+
+df3 = pdr.data.get_data_yahoo(acao,start=inicio22)
+
+primeiro_22 = df3.head(1)
+
+pri = primeiro_22.iloc[0]
+
+p = primeiro_22.iloc[0]['Adj Close']
+
+primeiro22 = str(round(p,2))
+
+
+
+
+
+
+# pega ultimo preço de 2022
+df3 = pdr.data.get_data_yahoo(acao,start=inicio22)
+
+ultimo_22 = df3[-1:]
+
+
+u = ultimo_22.iloc[0]['Adj Close']
+
+ultimo22 = round(u,2)
+
+
+
+
+
+# pega o preço minimo de 2022
+
+df3 = pdr.data.get_data_yahoo(acao,start=inicio22)
+
+ordenaMin = df3.sort_values(by=['Adj Close'])
+
+ordem = ordenaMin.iloc[0]['Adj Close']
+
+minimo22 = str(round(ordem,2))
+
+
+
+
+
+
+# pega o preço maximo de 2022
+
+ordenaMax = df3.sort_values(by=['Adj Close'],ascending=False)
+
+ordem = ordenaMax.iloc[0]['Adj Close']
+
+maximo22 = str(round(ordem,2))
+
+
+
+
+
+
 # variacao do preço em 2020
 
 variacao = pd.concat([primeiro_20,ultimo_20])
@@ -152,4 +214,21 @@ va21 = "{:.2%}".format(va21)
 # print(va21)
 
 
-print(f'\n {acao} \n 2020 \n Último preço : {ultimo20} \n Preço Máximo: {maximo20} \n Preço Mínimo: {minimo20} \n \n 2021 \n Último preço : {ultimo21} \n Preço Máximo: {maximo21} \n Preço Mínimo: {minimo21} \n \n Variação em 2020: {va} \n Variação em 2021: {va21}')
+
+# variacao do preço em 2022
+
+variacao = pd.concat([primeiro_22,ultimo_22])
+
+
+var22 = variacao.pct_change()
+
+var22 = var22.iloc[1]['Adj Close']
+
+var22 = "{:.2%}".format(var22)
+
+# print(va)
+
+
+
+
+print(f'\n {acao}\n \n 2020 \n Último preço : {ultimo20} \n Preço Máximo: {maximo20} \n Preço Mínimo: {minimo20} \n \n 2021 \n Último preço : {ultimo21} \n Preço Máximo: {maximo21} \n Preço Mínimo: {minimo21} \n \n 2022 \n Último preço : {ultimo22} \n Preço Máximo: {maximo22} \n Preço Mínimo: {minimo22} \n   \n Variação em 2020: {va} \n Variação em 2021: {va21} \n Variação em 2022: {var22}')
