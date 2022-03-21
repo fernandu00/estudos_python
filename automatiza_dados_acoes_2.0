@@ -1,0 +1,105 @@
+""" usar os códigos do site Yahoo Finance para obter resultados tipo ABEV3.SA para empresas brasileiras tem que ter .SA no final."""
+import pandas as pd
+import pandas_datareader as pdr
+import yfinance
+from datetime import date
+
+inicio20 = '2020-01-01'
+
+final20 = '2020-12-31'
+
+inicio21 = '2021-01-01'
+
+final21 = '2021-12-31'
+
+inicio22 = '2022-01-01'
+
+acao = input('Digite uma ação: ')
+
+
+def pega_primeiro(acao, inicio, final):
+    '''retorna o primeiro preco do periodo'''
+    df = pdr.data.get_data_yahoo(acao, start=inicio, end=final)
+    primeiro = df.head(1)
+    p = primeiro.iloc[0]['Adj Close']
+    primeiro = str(round(p, 2))
+    return primeiro
+
+def variacao(acao, inicio, final):
+    df = pdr.data.get_data_yahoo(acao, start=inicio, end=final)
+    primeiro = df.head(1)
+    ultimo = df[-1:]
+    variacao = pd.concat([primeiro, ultimo])
+    variacao.head()
+    var = variacao.pct_change()
+    var = var.iloc[1]['Adj Close']
+    return "{:.2%}".format(var)
+
+
+def pega_ultimo(aca, inicio, final):
+    '''retorna o ultimo preco do periodo'''
+    df = pdr.data.get_data_yahoo(acao, start=inicio, end=final)
+    ultimo = df[-1:]
+    ult = ultimo.iloc[0]
+    u = ultimo.iloc[0]['Adj Close']
+    ultimo = str(round(u, 2))
+    return ultimo
+
+
+def pega_minimo(aca, inicio, final):
+    '''retorna menor preco do periodo'''
+    df = pdr.data.get_data_yahoo(acao, start=inicio, end=final)
+    ordenaMin = df.sort_values(by=['Adj Close'])
+    ordem = ordenaMin.iloc[0]['Adj Close']
+    minimo = str(round(ordem, 2))
+    return minimo
+
+
+def pega_maximo(acao, inicio, final):
+    '''retorna preco maximo do periodo'''
+    df = pdr.data.get_data_yahoo(acao, start=inicio, end=final)
+    ordenaMax = df.sort_values(by=['Adj Close'], ascending=False)
+    ordem = ordenaMax.iloc[0]['Adj Close']
+    maximo = str(round(ordem, 2))
+    return maximo
+
+
+
+print('2020')
+
+print(f"Primeiro preço: {pega_primeiro(acao, '2020-01-01', '2020-12-31')}")
+
+print(f"Último preço: {pega_ultimo(acao, '2020-01-01', '2020-12-31')}")
+
+print(f"Preço máximo: {pega_maximo(acao, '2020-01-01', '2020-12-31')}")
+
+print(f"Preço mínimo: {pega_minimo(acao, '2020-01-01', '2020-12-31')}")
+
+
+print('2021')
+
+
+print(f"Primeiro preço: {pega_primeiro(acao, '2021-01-01', '2021-12-31')}")
+
+print(f"Último preço: {pega_ultimo(acao, '2021-01-01', '2021-12-31')}")
+
+print(f"Preço máximo: {pega_minimo(acao, '2021-01-01', '2021-12-31')}")
+
+print(f"Preço mínimo: {pega_maximo(acao, '2021-01-01', '2021-12-31')}")
+
+print('2022')
+
+print(f"Primeiro preço: {pega_primeiro(acao, '2022-01-01', date.today())}")
+
+print(f"Último preço: {pega_ultimo(acao, '2022-01-01', date.today())}")
+
+print(f"Preço máximo: {pega_minimo(acao, '2022-01-01', date.today())}")
+
+print(f"Preço mínimo: {pega_maximo(acao, '2022-01-01', date.today())}")
+
+print('Variação')
+print(f"Variaçao 2020: {variacao(acao,'2020-01-01', '2020-12-31')}")
+
+print(f"Variaçao 2021: {variacao(acao,'2021-01-01', '2021-12-31')}")
+
+print(f"Variaçao 2022: {variacao(acao,'2022-01-01', date.today())}")
